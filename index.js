@@ -1,8 +1,9 @@
 $(document).ready(function() {
-  var APIIP = "http://ip-api.com/json";
+  var APIIP = "https://ipinfo.io/json";
   var hour = new Date().getHours();
-
-   var newWindowObj = window.open("", "newWindow","width=500,height=150,top=100,left=100,toolbar=1,location=true,scrollbars=false,menubar=true,resizable=false,personalbar=true");
+  var proxy = "https://cors-anywhere.herokuapp.com/";
+   
+  var newWindowObj = window.open("", "newWindow","width=500,height=150,top=100,left=100,toolbar=1,location=true,scrollbars=false,menubar=true,resizable=false,personalbar=true");
   newWindowObj.document.write("<p style='background-color:red; border: 1px solid black;'>hello, if the weather isn't showing up....try deleting the -s- in https in the address bar.  If that doesn't work open me up in debugged and that should do the trick. sorry for the inconvience.</p>");
   
   
@@ -11,19 +12,15 @@ $(document).ready(function() {
     APIIP,
     //requesting location data
     function(data) {
-      var lat = data.lat;
-      var lon = data.lon;
-      var KEY = "6b214ab071f67d626e6b9e926901e3f9";
-      var URL =
-        "http://api.openweathermap.org/data/2.5/weather?lat=" +
-        lat +
-        "&lon=" +
-        lon +
-        "&appid=" +
-        KEY;
-      //requesting weather data
+      var city = data.city;
+      var country = data.country;
+      console.log(data);
 
-      $.getJSON(URL, function(data) {
+      var KEY = "&APPID=cdefd410530b3d8d178163965643440b";
+      var URL =
+        "http://api.openweathermap.org/data/2.5/weather?q=" + city + ',' + country + KEY;
+      //requesting weather data
+      $.getJSON(proxy+URL, function(data) {
         var type = data.weather[0].main;
         var id = data.weather[0].id;
         var city = data.name;
@@ -98,7 +95,7 @@ $(document).ready(function() {
         
         else {
           $("#display").css({
-            "background-image": "url('https://www.wpclipart.com/cartoon/animals/bird/bird_cartoons_2/confused_chickens.png')",
+            "background-image": "url('http://www.wpclipart.com/cartoon/animals/bird/bird_cartoons_2/confused_chickens.png')",
             "background-position": "140px 50px"
           });
         }
